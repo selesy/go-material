@@ -2,6 +2,7 @@ package material
 
 import (
 	"github.com/dennwc/dom"
+	"github.com/selesy/go-bem/bem"
 )
 
 var row = `
@@ -13,22 +14,22 @@ var row = `
 </div>
 `
 
-var topAppBar = Block{
+var topAppBar = bem.Block{
 	Tag:  "header",
 	Name: "mdc-top-app-bar",
-	Elements: []Element{
-		Element{
+	Elements: []bem.Element{
+		bem.Element{
 			Tag:  "div",
 			Name: "row",
-			Elements: []Element{
-				Element{
+			Elements: []bem.Element{
+				bem.Element{
 					Tag:  "section",
 					Name: "section",
-					Modifiers: []Modifier{
-						Modifier{
+					Modifiers: []bem.Modifier{
+						bem.Modifier{
 							Name: "align-start",
 						},
-						Modifier{
+						bem.Modifier{
 							Name: "align-end",
 						},
 					},
@@ -36,19 +37,19 @@ var topAppBar = Block{
 			},
 		},
 	},
-	Modifiers: []Modifier{
-		Modifier{
+	Modifiers: []bem.Modifier{
+		bem.Modifier{
 			Name: "short",
-			Modifiers: []Modifier{
-				Modifier{
+			Modifiers: []bem.Modifier{
+				bem.Modifier{
 					Name: "collapsed",
 				},
 			},
 		},
-		Modifier{
+		bem.Modifier{
 			Name: "Fixed",
 		},
-		Modifier{
+		bem.Modifier{
 			Name: "Prominent",
 		},
 	},

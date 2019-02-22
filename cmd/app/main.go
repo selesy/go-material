@@ -4,7 +4,7 @@ package main
 
 import (
 	"github.com/dennwc/dom"
-	"github.com/selesy/go-material-components-web/material"
+	"github.com/selesy/go-material/material"
 )
 
 func main() {

@@ -1,2 +1,4 @@
 github.com/dennwc/dom v0.2.1 h1:ADY36S5pLkfm+2l6mWj5XHtt/InVXZROijUG36+lMuY=
 github.com/dennwc/dom v0.2.1/go.mod h1:oFVwHbm2UiC3fpTHdNYk78qvsuvdJFnPWSBonoYGdYs=
+github.com/selesy/go-bem v0.0.0-20190222220404-5df1f79a1ac8 h1:BbU3qO+w/Vm3fL7YB2hgp75mWIRd5xYP8G5U5vi4AmA=
+github.com/selesy/go-bem v0.0.0-20190222220404-5df1f79a1ac8/go.mod h1:a06DM8cRygEW8dIXt2J5RioAYtjWNkx3hbwmmtqCS/E=
