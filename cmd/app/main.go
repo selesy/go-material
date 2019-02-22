@@ -18,8 +18,7 @@ func main() {
 	theme.SetAttribute("content", "#000000")
 	dom.Head.AppendChild(theme)
 
-	title := dom.Doc.GetElementsByTagName("title")[0]
-	title.SetInnerHTML("Material Components Web - Catalog")
+	material.Title("Material Components Web - Catalog")
 
 	t := material.NewTopAppBar()
 	dom.Body.AppendChild(t)
