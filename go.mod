@@ -1,6 +1,6 @@
 module github.com/selesy/go-material
 
 require (
-	github.com/dennwc/dom v0.2.1
-	github.com/selesy/go-bem v0.0.0-20190222220404-5df1f79a1ac8
+	github.com/dennwc/dom v0.0.0-20180302185621-2afd4c1f4cf7dfef040f076d02c99eff16d61507
+	github.com/sirupsen/logrus v1.3.0
 )
