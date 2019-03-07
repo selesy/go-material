@@ -1,17 +1,22 @@
-// build wasm
+// +build wasm
 
 package main
 
 import (
 	"github.com/dennwc/dom"
+	"github.com/dennwc/dom/require"
 	"github.com/selesy/go-material/material"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	dom.Require("https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css")
-	dom.Require("https://fonts.googleapis.com/icon?family=Material+Icons#.css")
-	dom.Require("https://material-components.github.io/material-components-web-catalog/static/css/main.0729fb5b.css")
-	dom.Require("https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
+	log.Trace("-> main()")
+	log.Info("Starting Go Material Catalog")
+
+	require.Stylesheet("https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css")
+	require.Stylesheet("https://fonts.googleapis.com/icon?family=Material+Icons")
+	require.Stylesheet("https://material-components.github.io/material-components-web-catalog/static/css/main.0729fb5b.css")
+	require.Script("https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
 
 	theme := dom.Doc.CreateElement("meta")
 	theme.SetAttribute("name", "theme-color")
@@ -22,4 +27,7 @@ func main() {
 
 	t := material.NewTopAppBar()
 	dom.Body.AppendChild(t)
+
+	log.Info("Exiting Go Material Catalog")
+	log.Trace("main() ->")
 }
