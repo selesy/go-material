@@ -1,8 +1,9 @@
+//+build wasm,js
+
 package material
 
 import (
 	"github.com/dennwc/dom"
-	"github.com/selesy/go-bem/bem"
 )
 
 var row = `
@@ -14,46 +15,46 @@ var row = `
 </div>
 `
 
-var topAppBar = bem.Block{
-	Tag:  "header",
-	Name: "mdc-top-app-bar",
-	Elements: []bem.Element{
-		bem.Element{
-			Tag:  "div",
-			Name: "row",
-			Elements: []bem.Element{
-				bem.Element{
-					Tag:  "section",
-					Name: "section",
-					Modifiers: []bem.Modifier{
-						bem.Modifier{
-							Name: "align-start",
-						},
-						bem.Modifier{
-							Name: "align-end",
-						},
-					},
-				},
-			},
-		},
-	},
-	Modifiers: []bem.Modifier{
-		bem.Modifier{
-			Name: "short",
-			Modifiers: []bem.Modifier{
-				bem.Modifier{
-					Name: "collapsed",
-				},
-			},
-		},
-		bem.Modifier{
-			Name: "Fixed",
-		},
-		bem.Modifier{
-			Name: "Prominent",
-		},
-	},
-}
+// var topAppBar = bem.Block{
+// 	Tag:  "header",
+// 	Name: "mdc-top-app-bar",
+// 	Elements: []bem.Element{
+// 		bem.Element{
+// 			Tag:  "div",
+// 			Name: "row",
+// 			Elements: []bem.Element{
+// 				bem.Element{
+// 					Tag:  "section",
+// 					Name: "section",
+// 					Modifiers: []bem.Modifier{
+// 						bem.Modifier{
+// 							Name: "align-start",
+// 						},
+// 						bem.Modifier{
+// 							Name: "align-end",
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	},
+// 	Modifiers: []bem.Modifier{
+// 		bem.Modifier{
+// 			Name: "short",
+// 			Modifiers: []bem.Modifier{
+// 				bem.Modifier{
+// 					Name: "collapsed",
+// 				},
+// 			},
+// 		},
+// 		bem.Modifier{
+// 			Name: "Fixed",
+// 		},
+// 		bem.Modifier{
+// 			Name: "Prominent",
+// 		},
+// 	},
+// }
 
 type topAppBarVariant string
 
