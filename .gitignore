@@ -13,3 +13,5 @@
 
 # Binaries compiler for the WASM target
 *.wasm
+
+.vscode/
