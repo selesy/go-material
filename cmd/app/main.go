@@ -1,4 +1,4 @@
-//+build wasm,js
+//+build wasm
 
 package main
 
