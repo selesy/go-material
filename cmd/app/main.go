@@ -28,6 +28,18 @@ func main() {
 	t := material.NewTopAppBar()
 	dom.Body.AppendChild(t)
 
+	s := dom.Doc.CreateElement("section")
+	s.SetAttribute("class", "mdc-top-app-bar--fixed-adjust")
+	dom.Body.AppendChild(s)
+
+	chipSet := material.NewChipSet(material.ChipSetVariant(material.InputChipSet))
+	s.AppendChild(&chipSet.Element.Element)
+
+	chip1 := material.DefaultChip("Chip 1")
+	chipSet.AddChip(chip1)
+	chip2 := material.DefaultChip("Chip 2")
+	chipSet.AddChip(chip2)
+
 	log.Info("Exiting Go Material Catalog")
 	log.Trace("main() ->")
 }
