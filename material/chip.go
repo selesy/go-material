@@ -1,16 +1,35 @@
 package material
 
 import (
+	"strings"
+	"text/template"
+
 	"github.com/dennwc/dom"
 	"github.com/dennwc/dom/js"
 	log "github.com/sirupsen/logrus"
 )
 
+const ChipTemplate = `
+{{- define "ChipTemplate" -}}
+<div class="mdc-chip">
+	<i class="material-icons mdc-chip__icon mdc-chip__icon--leading">face</i>
+	<div class=mdc-chip__checkmark">
+
+    <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+      <path class="mdc-chip__checkmark-path" fill="none" stroke="black"
+            d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+	</svg>
+		</div>
+	<div class="mdc-chip__text">{{.}}</div
+</div>
+{{- end -}}
+`
+
 type ChipOption func(c *Chip)
 
 func Wrap(el dom.Element) ChipOption {
 	return func(c *Chip) {
-		c.Element.Element = el
+		c.Element = el
 	}
 }
 
@@ -18,17 +37,35 @@ type Chip Component
 
 func DefaultChip(text string) Chip {
 	el := dom.Doc.CreateElement("div")
-	el.SetAttribute("class", "mdc-chip")
-	el.SetInnerHTML(text)
-	mdc := js.Get("mdc")
-	pkg := mdc.Get("chips")
-	comp := pkg.Get("MDCChip")
-	c := comp.Call("attachTo", el)
+	t, err := template.New("foo").Parse(ChipTemplate)
+	if err != nil {
+		log.Error("Blah 1")
+	}
+	var b strings.Builder
+	err = t.ExecuteTemplate(&b, "ChipTemplate", text)
+	if err != nil {
+		log.Error("Blah 2")
+	}
+	log.Info("Outer HTML: ", b.String())
+	log.Info("el outer HTML before: ", el.OuterHTML())
+	el.SetInnerHTML(b.String())
+	log.Info("el outer HTML after: ", el.OuterHTML())
+	// log.Info("Return string: ", s)
+	// el.SetAttribute("class", "mdc-chip")
+	// el.SetInnerHTML(text)
+	// mdc := js.Get("mdc")
+	// pkg := mdc.Get("chips")
+	// comp := pkg.Get("MDCChip")
+	el = el.ChildNodes()[0]
+	// c := comp.Call("attachTo", el)
+	// c := comp.Call("attachTo", el)
+	// mdc.Call("autoInit", el)
+	//c.Call("initialize")
 	return Chip{
-		Element: dom.HTMLElement{
+		HTMLElement: dom.HTMLElement{
 			Element: *el,
 		},
-		Value: c,
+		// Value: c,
 	}
 }
 
@@ -128,14 +165,18 @@ func NewChipSet(opts ...ChipSetOption) ChipSet {
 		cl = cl + " " + cso.ModifierClass
 	}
 	cso.BlockElement.SetAttribute("class", cl)
+	cso.BlockElement.SetAttribute("data-mdc-auto-init", "MDCChipSet")
 
 	mdc := js.Get("mdc")
 	pack := mdc.Get("chips")
 	comp := pack.Get("MDCChipSet")
-	cs := comp.Call("attachTo", cso.BlockElement)
+	// cs := comp.Call("attachTo", cso.BlockElement.JSValue())
+	// cs.Call("initialize")
+	cs := comp.New(cso.BlockElement.JSValue())
+	//mdc.Call("autoInit", cso.BlockElement.JSValue())
 
 	return ChipSet{
-		Element: dom.HTMLElement{
+		HTMLElement: dom.HTMLElement{
 			Element: *cso.BlockElement,
 		},
 		Value: cs,
@@ -143,17 +184,18 @@ func NewChipSet(opts ...ChipSetOption) ChipSet {
 }
 
 func (cs ChipSet) AddChip(c Chip) {
-	log.Info("AddChip")
-	log.Info("ChipSet is valid: ", cs.Value.Valid())
-	log.Info("Chip is valid: ", c.Value.Valid())
-	v := js.ValueOf(c.Element.Element)
-	cs.Value.Call("addChip", v)
+	cs.Element.AppendChild(&c.Element)
+	cs.Value.Call("addChip", c.Element.JSValue())
 }
 
 func (cs ChipSet) Chips() []Chip {
 	return nil //TODO
 }
 
-func (cs ChipSet) SelectedChips() []Chip {
-	return nil //TODO
+func (cs ChipSet) SelectedChips() []string {
+	var ids []string
+	for _, v := range cs.Get("selectedChipIds").Slice() {
+		ids = append(ids, v.String())
+	}
+	return ids
 }

@@ -7,22 +7,22 @@ import (
 	"github.com/dennwc/dom/js"
 )
 
-type Attacher interface {
-	AttachTo(root dom.HTMLElement)
-}
+type ComponentOption func(c *Component)
 
-type HTMLElementer interface {
-	HTMLElement() dom.HTMLElement
+type ComponentSpec struct {
+	Package   string
+	Component string
+	Class     string
 }
 
 type Component struct {
-	Element dom.HTMLElement
-	Value   js.Value
+	dom.HTMLElement
+	js.Value
 }
 
 type Variant string
 
-func (c Component) AttachTo(e dom.HTMLElement) {
+func (c Component) AttachTo(dom.HTMLElement) {
 
 }
 

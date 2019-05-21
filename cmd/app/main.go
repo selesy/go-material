@@ -4,6 +4,7 @@ package main
 
 import (
 	"github.com/dennwc/dom"
+	"github.com/dennwc/dom/js"
 	"github.com/dennwc/dom/require"
 	"github.com/selesy/go-material/material"
 	log "github.com/sirupsen/logrus"
@@ -32,13 +33,23 @@ func main() {
 	s.SetAttribute("class", "mdc-top-app-bar--fixed-adjust")
 	dom.Body.AppendChild(s)
 
-	chipSet := material.NewChipSet(material.ChipSetVariant(material.InputChipSet))
-	s.AppendChild(&chipSet.Element.Element)
+	chipSet := material.NewChipSet(material.ChipSetVariant(material.FilterChipSet))
+	s.AppendChild(&chipSet.Element)
 
 	chip1 := material.DefaultChip("Chip 1")
 	chipSet.AddChip(chip1)
 	chip2 := material.DefaultChip("Chip 2")
 	chipSet.AddChip(chip2)
+	//	chip2.SetSelected(true)
+
+	log.Info("Selected chips: ", chipSet.SelectedChips())
+
+	chip3 := material.DefaultChip(("Chip 3"))
+	s.AppendChild(&chip3.Element)
+
+	mdc := js.Get("mdc")
+	auto := mdc.Call("autoInit")
+	log.Info("Auto valid: ", auto.Valid())
 
 	log.Info("Exiting Go Material Catalog")
 	log.Trace("main() ->")
