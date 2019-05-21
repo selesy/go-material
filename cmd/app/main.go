@@ -4,7 +4,6 @@ package main
 
 import (
 	"github.com/dennwc/dom"
-	"github.com/dennwc/dom/js"
 	"github.com/dennwc/dom/require"
 	"github.com/selesy/go-material/material"
 	log "github.com/sirupsen/logrus"
@@ -44,12 +43,14 @@ func main() {
 
 	log.Info("Selected chips: ", chipSet.SelectedChips())
 
-	chip3 := material.DefaultChip(("Chip 3"))
-	s.AppendChild(&chip3.Element)
+	// chip3 := material.DefaultChip(("Chip 3"))
+	// s.AppendChild(&chip3.Element)
+	// chip3.Element.SetAttribute("data-mdc-auto-init", "MDCChip")
 
-	mdc := js.Get("mdc")
-	auto := mdc.Call("autoInit")
-	log.Info("Auto valid: ", auto.Valid())
+	// mdc := js.Get("mdc")
+	// //auto := mdc.Call("autoInit", chip3.Element.JSValue())
+	// auto := mdc.Call("autoInit")
+	// log.Info("Auto valid: ", auto.Valid())
 
 	log.Info("Exiting Go Material Catalog")
 	log.Trace("main() ->")

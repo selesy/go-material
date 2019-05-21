@@ -9,7 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const ChipTemplate = `
+const ChipTemplate1 = `
 {{- define "ChipTemplate" -}}
 <div class="mdc-chip">
 	<i class="material-icons mdc-chip__icon mdc-chip__icon--leading">face</i>
@@ -21,6 +21,21 @@ const ChipTemplate = `
 	</svg>
 		</div>
 	<div class="mdc-chip__text">{{.}}</div
+</div>
+{{- end -}}
+`
+
+const ChipTemplate = `
+{{- define "ChipTemplate" -}}
+<div class="mdc-chip">
+<i class="material-icons mdc-chip__icon mdc-chip__icon--leading">face</i>
+<div class="mdc-chip__checkmark">
+	<svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
+		<path class="mdc-chip__checkmark-path" fill="none" stroke="black"
+			d="M1.73,12.91 8.1,19.28 22.79,4.59" />
+	</svg>
+</div>
+<div class="mdc-chip__text">{{.}}</div>
 </div>
 {{- end -}}
 `
@@ -165,7 +180,7 @@ func NewChipSet(opts ...ChipSetOption) ChipSet {
 		cl = cl + " " + cso.ModifierClass
 	}
 	cso.BlockElement.SetAttribute("class", cl)
-	cso.BlockElement.SetAttribute("data-mdc-auto-init", "MDCChipSet")
+	// cso.BlockElement.SetAttribute("data-mdc-auto-init", "MDCChipSet")
 
 	mdc := js.Get("mdc")
 	pack := mdc.Get("chips")
@@ -197,5 +212,6 @@ func (cs ChipSet) SelectedChips() []string {
 	for _, v := range cs.Get("selectedChipIds").Slice() {
 		ids = append(ids, v.String())
 	}
+	log.Info("Selected chips: ", ids)
 	return ids
 }
