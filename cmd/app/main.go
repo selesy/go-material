@@ -3,6 +3,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/dennwc/dom"
 	"github.com/dennwc/dom/require"
 	"github.com/selesy/go-material/material"
@@ -33,15 +35,31 @@ func main() {
 	dom.Body.AppendChild(s)
 
 	chipSet := material.NewChipSet(material.ChipSetVariant(material.FilterChipSet))
-	s.AppendChild(&chipSet.Element)
+	s.AppendChild(chipSet.Root())
 
-	chip1 := material.DefaultChip("Chip 1")
-	chipSet.AddChip(chip1)
+	chipSpec := material.NewChipSpec(material.ChipLeadingIcon("golf_course"))
+
+	chip1, err := material.NewChip(material.FromChipSpec(&chipSpec), material.ChipText("Chip 1"))
+	if err == nil {
+		chipSet.AddChip(chip1)
+	}
+	// chip1 := material.DefaultChip("Chip 1")
+	// chipSet.AddChip(chip1)
 	chip2 := material.DefaultChip("Chip 2")
 	chipSet.AddChip(chip2)
-	//	chip2.SetSelected(true)
+	chip3 := material.DefaultChip("Chip 3")
+	chipSet.AddChip(chip3)
 
-	log.Info("Selected chips: ", chipSet.SelectedChips())
+	chip4, err := material.NewChip(material.ChipLeadingIcon("face"), material.ChipText("Chip 4"))
+	if err == nil {
+		chipSet.AddChip(chip4)
+	}
+
+	chipSet.Chips()
+
+	chipSet.Root().OnClick(func(_ *dom.MouseEvent) {
+		log.Info("Selected chips: ", chipSet.SelectedChipIds())
+	})
 
 	// chip3 := material.DefaultChip(("Chip 3"))
 	// s.AppendChild(&chip3.Element)
@@ -51,6 +69,14 @@ func main() {
 	// //auto := mdc.Call("autoInit", chip3.Element.JSValue())
 	// auto := mdc.Call("autoInit")
 	// log.Info("Auto valid: ", auto.Valid())
+
+	const interval = time.Millisecond * 1000
+	for {
+		time.Sleep(interval)
+		// for _, c := range chipSet.Chips() {
+		// 	c.SetSelected(!c.Selected())
+		// }
+	}
 
 	log.Info("Exiting Go Material Catalog")
 	log.Trace("main() ->")
