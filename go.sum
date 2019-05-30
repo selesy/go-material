@@ -14,8 +14,8 @@ github.com/containerd/continuity v0.0.0-20181027224239-bea7585dbfac h1:PThQaO4yC
 github.com/containerd/continuity v0.0.0-20181027224239-bea7585dbfac/go.mod h1:GL3xCUCBDV3CZiTSEKksMWbLE66hEyuu9qyDOOqM47Y=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/dennwc/dom v0.3.0 h1:u89+QvT1OPRSSTFf54o9RuK7C0Uoq2jFo4VCa4rnjtI=
-github.com/dennwc/dom v0.3.0/go.mod h1:/z5w9Stx19m8RUwolsmsqTs9rDxKgJO5T9UEumilgk4=
+github.com/dennwc/dom v0.3.1-0.20190527140551-5d591340e885 h1:ywvFa3vOsPAIrc2VCPCrYIKmHxAfR6JKtv59n/GovX4=
+github.com/dennwc/dom v0.3.1-0.20190527140551-5d591340e885/go.mod h1:/z5w9Stx19m8RUwolsmsqTs9rDxKgJO5T9UEumilgk4=
 github.com/dennwc/testproxy v1.0.1 h1:mQhNVWHPolTYjJrDZYKcugIplWRSlFAis6k/Zf1s0c0=
 github.com/dennwc/testproxy v1.0.1/go.mod h1:EHGV9tzWhMPLmEoVJ2KGyC149XqwKZwBDViCjhKD5d8=
 github.com/disintegration/imaging v1.6.0 h1:nVPXRUUQ36Z7MNf0O77UzgnOb1mkMMor7lmJMJXc/mA=
