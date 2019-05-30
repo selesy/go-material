@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/dennwc/dom"
+	"github.com/dennwc/dom/js"
 	"github.com/dennwc/dom/require"
 	"github.com/selesy/go-material/material"
 	log "github.com/sirupsen/logrus"
@@ -53,6 +54,9 @@ func main() {
 	chip4, err := material.NewChip(material.ChipLeadingIcon("face"), material.ChipText("Chip 4"))
 	if err == nil {
 		chipSet.AddChip(chip4)
+		for i, e := range dom.Doc.GetElementById("mdc-chip-4").ChildNodes() {
+			log.Info("Child index: ", i, ", name: ", e.NodeName(), ", type: ", e.JSValue().Get("nodeType"))
+		}
 	}
 
 	chipSet.Chips()
@@ -60,6 +64,28 @@ func main() {
 	chipSet.Root().OnClick(func(_ *dom.MouseEvent) {
 		log.Info("Selected chips: ", chipSet.SelectedChipIds())
 	})
+
+	rippleFactory := js.Get("mdc", "ripple", "MDCRipple")
+
+	boundedRippleEl := dom.Doc.CreateElement("div")
+	boundedRippleEl.SetAttribute("class", "mdc-ripple-surface")
+	boundedRippleEl.SetAttribute("style", "height: 200px;width: 200px;border: black solid 1px")
+	s.AppendChild(boundedRippleEl)
+	rippleFactory.Call("attachTo", boundedRippleEl)
+
+	unboundedRippleEl := dom.Doc.CreateElement("div")
+	unboundedRippleEl.SetAttribute("class", "mdc-ripple-surface")
+	unboundedRippleEl.SetAttribute("style", "height: 200px;width: 200px;border: black solid 1px")
+	s.AppendChild(unboundedRippleEl)
+	unboundedRipple := rippleFactory.New(unboundedRippleEl)
+	unboundedRipple.Set("unbounded", true)
+
+	rippleEl := dom.Doc.CreateElement("div")
+	rippleEl.SetAttribute("class", "mdc-ripple-surface")
+	rippleEl.SetAttribute("style", "height: 200px;width: 200px;border: black solid 1px")
+	s.AppendChild(rippleEl)
+	ripple := material.NewRipple()
+	ripple.AttachTo(rippleEl)
 
 	// chip3 := material.DefaultChip(("Chip 3"))
 	// s.AppendChild(&chip3.Element)
