@@ -49,39 +49,34 @@ func AsComponent(v js.Value) Component {
 	}
 }
 
-func NewComponent(spec ChipSpec) (Component, error) {
-	cs := spec.ComponentSpec
-	el := dom.Doc.CreateElement("div")
-	t, err := template.New("foo").Parse(cs.Template)
-	if err != nil {
-		return Component{}, err
+func NewComponent(spec ComponentSpec) (Component, error) {
+	comp := js.Class("mdc", spec.Package, spec.Component)
+
+	if spec.Template != "" {
+		el := dom.Doc.CreateElement("div")
+		t, err := template.New("ComponentTemplate").Parse(spec.Template)
+		if err != nil {
+			return Component{}, err
+		}
+
+		var b strings.Builder
+		err = t.ExecuteTemplate(&b, "ComponentTemplate", spec)
+		if err != nil {
+			log.Info("Got here bozo!")
+			log.Error(err)
+			return Component{}, err
+		}
+		el = el.ChildNodes()[0]
+		comp = comp.Call("attachTo", el)
 	}
 
-	var b strings.Builder
-	err = t.ExecuteTemplate(&b, "ChipTemplate", spec)
-	if err != nil {
-		return Component{}, err
-	}
-	log.Info("Outer HTML: ", b.String())
-	log.Info("el outer HTML before: ", el.OuterHTML())
-	el.SetInnerHTML(b.String())
-	log.Info("el outer HTML after: ", el.OuterHTML())
-	// log.Info("Return string: ", s)
-	// el.SetAttribute("class", "mdc-chip")
-	// el.SetInnerHTML(text)
-	mdc := js.Get("mdc")
-	pkg := mdc.Get("chips")
-	comp := pkg.Get("MDCChip")
-	el = el.ChildNodes()[0]
-	// c := comp.Call("attachTo", el)
-	c := comp.Call("attachTo", el)
-	return AsComponent(c), nil
+	return AsComponent(comp), nil
 }
 
 type Variant string
 
-func (c Component) AttachTo(root dom.HTMLElement) {
-
+func (c *Component) AttachTo(root *dom.Element) {
+	*c = AsComponent(c.Call("attachTo", root))
 }
 
 func (c *Component) Root() *dom.HTMLElement {
