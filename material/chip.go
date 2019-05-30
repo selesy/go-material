@@ -1,16 +1,13 @@
 package material
 
 import (
-	"strings"
-	"text/template"
-
 	"github.com/dennwc/dom"
 	"github.com/dennwc/dom/js"
 	log "github.com/sirupsen/logrus"
 )
 
 const ChipTemplate = `
-{{- define "ChipTemplate" -}}
+{{- define "ComponentTemplate" -}}
 <div class="mdc-chip">
 {{ if .LeadingIcon }}
 <i class="material-icons mdc-chip__icon mdc-chip__icon--leading">{{ .LeadingIcon }}</i>
@@ -51,7 +48,7 @@ func NewChipSpec(opts ...ChipOption) ChipSpec {
 	return cs
 }
 
-type ChipOption func(c *ChipSpec)
+type ChipOption func(cs *ChipSpec)
 
 func FromChipSpec(ics *ChipSpec) ChipOption {
 	return func(ocs *ChipSpec) {
@@ -88,7 +85,7 @@ func AsChip(c Component) (Chip, error) {
 }
 
 func NewChip(opts ...ChipOption) (Chip, error) {
-	cmp, err := NewComponent(NewChipSpec(opts...))
+	cmp, err := NewComponent(NewChipSpec(opts...).ComponentSpec)
 	if err != nil {
 		return Chip{}, err
 	}
@@ -96,64 +93,9 @@ func NewChip(opts ...ChipOption) (Chip, error) {
 }
 
 func DefaultChip(text string) Chip {
-	el := dom.Doc.CreateElement("div")
-	t, err := template.New("foo").Parse(ChipTemplate)
-	if err != nil {
-		log.Error("Blah 1")
-	}
-	var b strings.Builder
-	err = t.ExecuteTemplate(&b, "ChipTemplate", text)
-	if err != nil {
-		log.Error("Blah 2")
-	}
-	log.Info("Outer HTML: ", b.String())
-	log.Info("el outer HTML before: ", el.OuterHTML())
-	el.SetInnerHTML(b.String())
-	log.Info("el outer HTML after: ", el.OuterHTML())
-	// log.Info("Return string: ", s)
-	// el.SetAttribute("class", "mdc-chip")
-	// el.SetInnerHTML(text)
-	mdc := js.Get("mdc")
-	pkg := mdc.Get("chips")
-	comp := pkg.Get("MDCChip")
-	el = el.ChildNodes()[0]
-	// c := comp.Call("attachTo", el)
-	c := comp.Call("attachTo", el)
-	// mdc.Call("autoInit", el)
-	//c.Call("initialize")
-	return Chip{
-		Component: Component{
-			Value: c,
-		},
-	}
+	cmp, _ := NewChip()
+	return cmp
 }
-
-// func NewChip(opts ...ChipOption) Chip {
-// 	var c Chip
-// 	for _, opt := range opts {
-// 		opt(&c)
-// 	}
-// 	e := dom.Doc.CreateElement("div")
-// 	log.Info("Got here 1")
-// 	c := js.Class("mdc.chips.MDCChip")
-// 	log.Info("Instance of class", c.InstanceOfClass("mdc.chips.MDCChip"))
-// 	log.Info("Got here 2")
-// 	log.Info("Class is null: ", c.IsNull())
-// 	log.Info("Class is undefined: ", c.IsUndefined())
-// 	log.Info("Class: ", c.String())
-// 	cl := js.Get("mdc.chips.MDCChip")
-// 	log.Info("Class is null: ", cl.IsNull())
-// 	log.Info("Class is undefined: ", cl.IsUndefined())
-// 	v1 := js.Call("mdc.chips.MDCChip.attachTo", e)
-// 	log.Info("v1", v1)
-// 	v := c.Call("attachTo", e)
-// 	return Chip{
-// 		Element: dom.HTMLElement{
-// 			Element: *e,
-// 		},
-// 		Value: v,
-// 	}
-// }
 
 func (c Chip) Selected() bool {
 	return c.Value.Get("selected").Bool()
@@ -244,6 +186,10 @@ func NewChipSet(opts ...ChipSetOption) ChipSet {
 }
 
 func (cs ChipSet) AddChip(c Chip) {
+	if !c.Value.Valid() {
+		return
+	}
+
 	c.Value.Call("destroy")
 	//c.Value = *new(js.Value)
 	cs.Root().AppendChild(c.Root())
