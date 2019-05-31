@@ -3,6 +3,8 @@
 package material
 
 import (
+	"errors"
+	"reflect"
 	"strings"
 	"sync"
 	"text/template"
@@ -49,22 +51,33 @@ func AsComponent(v js.Value) Component {
 	}
 }
 
-func NewComponent(spec ComponentSpec) (Component, error) {
-	comp := js.Class("mdc", spec.Package, spec.Component)
+func NewComponent(spec interface{}) (Component, error) {
+	cs, ok := reflect.ValueOf(spec).FieldByName("ComponentSpec").Interface().(ComponentSpec)
+	if !ok {
+		return Component{}, errors.New("blah")
+	}
 
-	if spec.Template != "" {
+	comp := js.Class("mdc", cs.Package, cs.Component)
+
+	if cs.Template != "" {
 		el := dom.Doc.CreateElement("div")
-		t, err := template.New("ComponentTemplate").Parse(spec.Template)
+
+		//TODO: Replace foo with a real name
+		t, err := template.New("foo").Parse(cs.Template)
 		if err != nil {
 			return Component{}, err
 		}
 
 		var b strings.Builder
+		log.Info("Spec: ", spec)
 		err = t.ExecuteTemplate(&b, "ComponentTemplate", spec)
 		if err != nil {
-			log.Info("Got here bozo!")
-			log.Error(err)
 			return Component{}, err
+		}
+
+		el.SetInnerHTML(b.String())
+		if len(el.ChildNodes()) != 1 {
+			return Component{}, errors.New("Only a single element node should be returned by a component template")
 		}
 		el = el.ChildNodes()[0]
 		comp = comp.Call("attachTo", el)

@@ -85,7 +85,7 @@ func AsChip(c Component) (Chip, error) {
 }
 
 func NewChip(opts ...ChipOption) (Chip, error) {
-	cmp, err := NewComponent(NewChipSpec(opts...).ComponentSpec)
+	cmp, err := NewComponent(NewChipSpec(opts...))
 	if err != nil {
 		return Chip{}, err
 	}

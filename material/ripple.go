@@ -57,7 +57,7 @@ func AsRipple(c Component) Ripple {
 }
 
 func NewRipple(opts ...RippleOption) Ripple {
-	cmp, err := NewComponent(NewRippleSpec(opts...).ComponentSpec)
+	cmp, err := NewComponent(NewRippleSpec(opts...))
 	if err != nil {
 
 	}
