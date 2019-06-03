@@ -21,6 +21,10 @@ func main() {
 	require.Stylesheet("https://material-components.github.io/material-components-web-catalog/static/css/main.0729fb5b.css")
 	require.Script("https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js")
 
+	require.Stylesheet("https://fonts.googleapis.com/css?family=Rubik:300,400,500")
+	require.Stylesheet("https://fonts.googleapis.com/css?family=Roboto+Mono")
+	require.Stylesheet("https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700")
+
 	theme := dom.Doc.CreateElement("meta")
 	theme.SetAttribute("name", "theme-color")
 	theme.SetAttribute("content", "#000000")
@@ -28,12 +32,18 @@ func main() {
 
 	material.SetTitle("Material Components Web | Catalog")
 
+	dom.Body.ClassList().Add("mdc-typography")
+
 	t := material.NewTopAppBar()
 	dom.Body.AppendChild(t)
 
+	c := dom.Doc.CreateElement("div")
+	c.ClassList().Add("catalog-page-container")
+	dom.Body.AppendChild(c)
+
 	s := dom.Doc.CreateElement("section")
 	s.SetAttribute("class", "mdc-top-app-bar--fixed-adjust")
-	dom.Body.AppendChild(s)
+	c.AppendChild(s)
 
 	chipSet := material.NewChipSet(material.ChipSetVariant(material.FilterChipSet))
 	s.AppendChild(chipSet.Root())
