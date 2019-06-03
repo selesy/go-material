@@ -4,14 +4,21 @@ package material
 
 import "github.com/dennwc/dom"
 
-func Title(title string) {
+func titleEl() *dom.HTMLElement {
 	titles := dom.Doc.GetElementsByTagName("title")
-
-	if len(titles) < 1 {
-		dom.Head.AppendChild(dom.Doc.CreateElement("title"))
-		titles = dom.Doc.GetElementsByTagName("title")
+	if len(titles) > 0 {
+		return titles[0].AsHTMLElement()
 	}
 
-	e := titles[0]
-	e.SetInnerHTML(title)
+	titleEl := dom.Doc.CreateElement("title")
+	dom.Head.AppendChild(titleEl)
+	return titleEl.AsHTMLElement()
+}
+
+func Title() string {
+	return titleEl().InnerText()
+}
+
+func SetTitle(title string) {
+	titleEl().SetInnerText(title)
 }
