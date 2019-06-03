@@ -21,6 +21,7 @@ func DefaultRippleSpec() RippleSpec {
 			Component: "MDCRipple",
 			Template:  "",
 		},
+		//Color is default "" and Unbounded is the default false
 	}
 }
 
