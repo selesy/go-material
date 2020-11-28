@@ -1,0 +1,18 @@
+---
+name: "button"
+
+block:
+  class: "button"
+  tag: "div"
+# elements:
+# - name: "LeadingIcon"
+#   spec: "icon"
+# - name: "Label"
+#   spec: "span"
+# - name: "TrailingIcon"
+#   spec: "icon"
+# modifiers:
+# - "outlined"
+# - "raised"
+# - "unelevated"
+...

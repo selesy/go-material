@@ -1,0 +1,25 @@
+---
+name: "Chip"
+
+block:
+  class: "chip"
+  tag: "div"
+# elements:
+# - name: "LeadingIcon"
+#   block: "i"
+# - name: "Text"
+#   block: "span"
+# - name: "TrailingIcon"
+#   block: "i"
+# modifiers:
+# - "outlined"
+# - "raised"
+# - "unelevated"
+...
+---
+name: "ChipSet"
+
+block:
+  class: "chipset"
+  tag: "span"
+...

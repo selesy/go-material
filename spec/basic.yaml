@@ -1,0 +1,14 @@
+---
+name: "label"
+
+block:
+  class: "label"
+  tag: "span"
+...
+---
+name: "icon"
+
+block:
+  class: "icon"
+  tag: "i"
+...
