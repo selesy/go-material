@@ -10,9 +10,14 @@ type Element struct {
 	Component Component
 }
 
+type Modifier struct {
+	Name    string
+	Variant bool
+}
+
 type Component struct {
 	Name  string
 	Block Block
 	// Elements  []Element
-	// Modifiers []string
+	Modifiers []Modifier
 }
