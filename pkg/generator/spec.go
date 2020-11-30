@@ -45,21 +45,13 @@ func (c Config) read() (map[string]Component, error) {
 	for _, file := range files {
 		log.Info("  ", file)
 
-		yamlFile, err := ioutil.ReadFile(file)
+		data, err := ioutil.ReadFile(file)
 		if err != nil {
 			log.Printf("yamlFile.Get err   #%v ", err) // TODO
 			return nil, err                            // TODO
 		}
 
-		// cs := []Component{}
-
-		// err = yaml.Unmarshal(yamlFile, &cs)
-		// if err != nil {
-		// 	log.Fatalf("Unmarshal: %v", err) // TODO
-		// 	return nil, err                  // TODO
-		// }
-
-		dec := yaml.NewDecoder(bytes.NewReader(yamlFile))
+		dec := yaml.NewDecoder(bytes.NewReader(data))
 
 		for {
 			c := Component{}
@@ -68,17 +60,14 @@ func (c Config) read() (map[string]Component, error) {
 			}
 			comps[c.Name] = c
 		}
-
-		// for _, c := range cs {
-		// 	comps[c.Name] = c
-		// }
 	}
 
 	log.Info("--------------------------------------------------")
 	log.Info("Imported component specifications:")
 
-	for k, _ := range comps {
-		log.Info("  ", k)
+	for k, v := range comps {
+		log.Info("  ", k, ":")
+		log.Info("    ", v)
 	}
 
 	return nil, nil
