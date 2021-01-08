@@ -7,6 +7,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+type Generator struct {
+	Github *Github
+}
+
 type Config struct {
 	Extension string
 	InDir     string
