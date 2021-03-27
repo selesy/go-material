@@ -48,6 +48,23 @@ func TestLexer(t *testing.T) {
 	require.Equal(t, exp, []byte(sb.String()))
 }
 
-func TestTypescriptLexingParsing(t *testing.T) {
+func TestParser(t *testing.T) {
 	t.Parallel()
+
+	if !flag.Parsed() {
+		flag.Parse()
+	}
+
+	bytes, err := ioutil.ReadFile("testdata/chip.ts")
+	require.NoError(t, err)
+	require.NotEmpty(t, bytes)
+
+	lexer := typescript.NewLexer(bytes)
+	require.NotNil(t, lexer)
+
+	classes := typescript.Parse(lexer)
+	require.NotNil(t, classes)
+	require.Len(t, classes, 1)
+	require.Equal(t, "MDCChip", classes[0].Name)
+	require.Equal(t, "MDCComponent", classes[0].Extends)
 }

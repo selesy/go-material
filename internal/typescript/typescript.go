@@ -3,6 +3,8 @@ package typescript
 import (
 	"fmt"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type Token struct {
@@ -101,4 +103,112 @@ func (l *Lexer) Token() *Token {
 
 func (l *Lexer) Whitespace() map[byte]bool {
 	return map[byte]bool{'\n': true, '\t': true, ' ': true}
+}
+
+type Class struct {
+	Name    string
+	Extends string
+}
+
+type parser struct {
+	Lexer   *Lexer
+	Classes []Class
+}
+
+func Parse(lexer *Lexer) []Class {
+	parser := &parser{
+		Lexer:   lexer,
+		Classes: []Class{},
+	}
+
+	parser.ClassSearch()
+
+	return parser.Classes
+}
+
+func (p *parser) ClassBlock(token *Token) *Token {
+	return token
+}
+
+func (p *parser) ClassDefinition(token *Token) *Token {
+	name := p.Lexer.Token()
+	next := p.Lexer.Token()
+
+	var extends *Token = nil
+	if string(next.Bytes) == "extends" {
+		extends = p.Lexer.Token()
+		next = p.Lexer.Token()
+	}
+
+	if string(next.Bytes) == "<" {
+		next = p.SkipGeneric(next)
+	}
+
+	if string(next.Bytes) == "{" {
+		token = p.ClassBlock(token)
+	}
+
+	p.Classes = append(p.Classes, Class{
+		Name:    string(name.Bytes),
+		Extends: string(extends.Bytes),
+	})
+
+	return token
+}
+
+func (p *parser) ClassSearch() {
+	token := &Token{
+		Row:    0,
+		Column: 0,
+		Bytes:  []byte{},
+		EOL:    false,
+		EOF:    false,
+	}
+
+	for !token.EOF {
+		token = p.Lexer.Token()
+		token = p.SkipComment(token)
+
+		if string(token.Bytes) == "class" {
+			token = p.ClassDefinition(token)
+		}
+
+		log.Info("Token: ", string(token.Bytes))
+	}
+}
+
+func (p *parser) SkipComment(token *Token) *Token {
+	if strings.HasPrefix(string(token.Bytes), "/*") {
+		token = p.SkipBlockComment(token)
+	}
+
+	if strings.HasPrefix(string(token.Bytes), "//") {
+		token = p.SkipLineComment(token)
+	}
+
+	return token
+}
+
+func (p *parser) SkipBlockComment(token *Token) *Token {
+	for string(token.Bytes) != "*/" {
+		token = p.Lexer.Token()
+	}
+
+	return token
+}
+
+func (p *parser) SkipGeneric(token *Token) *Token {
+	for string(token.Bytes) != ">" {
+		token = p.Lexer.Token()
+	}
+
+	return p.Lexer.Token()
+}
+
+func (p *parser) SkipLineComment(token *Token) *Token {
+	for !token.EOL {
+		token = p.Lexer.Token()
+	}
+
+	return token
 }
