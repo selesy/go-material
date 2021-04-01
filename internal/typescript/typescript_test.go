@@ -4,56 +4,21 @@ import (
 	"flag"
 	"io/fs"
 	"io/ioutil"
-	"strings"
 	"testing"
 
 	"github.com/selesy/go-material/internal/typescript"
 	"github.com/stretchr/testify/require"
 )
 
-func TestLexer(t *testing.T) {
-	t.Parallel()
-
-	update := flag.Bool("update", false, "update golden files")
-
-	if !flag.Parsed() {
-		flag.Parse()
-	}
-
-	bytes, err := ioutil.ReadFile("testdata/chip.ts")
-	require.NoError(t, err)
-	require.NotEmpty(t, bytes)
-
-	lexer := typescript.NewLexer(bytes)
-	require.NotNil(t, lexer)
-
-	sb, token := strings.Builder{}, lexer.Token()
-	for !token.EOF {
-		sb.WriteString(token.String())
-		sb.WriteByte('\n')
-
-		token = lexer.Token()
-	}
-
-	if *update {
-		err := ioutil.WriteFile("testdata/chip.golden", []byte(sb.String()), fs.ModePerm)
-		require.NoError(t, err)
-
-		return
-	}
-
-	exp, err := ioutil.ReadFile("testdata/chip.golden")
-	require.NoError(t, err)
-
-	require.Equal(t, exp, []byte(sb.String()))
-}
+var update = flag.Bool("update", false, "update golden files")
 
 func TestParser(t *testing.T) {
 	t.Parallel()
 
-	if !flag.Parsed() {
-		flag.Parse()
-	}
+	const (
+		inputFile  = "testdata/chip.ts"
+		parsedFile = "testdata/chip_parsed.golden"
+	)
 
 	bytes, err := ioutil.ReadFile("testdata/chip.ts")
 	require.NoError(t, err)
@@ -65,6 +30,16 @@ func TestParser(t *testing.T) {
 	classes := typescript.Parse(lexer)
 	require.NotNil(t, classes)
 	require.Len(t, classes, 1)
-	require.Equal(t, "MDCChip", classes[0].Name)
-	require.Equal(t, "MDCComponent", classes[0].Extends)
+
+	if *update {
+		err := ioutil.WriteFile(parsedFile, []byte(classes[0].String()), fs.ModePerm)
+		require.NoError(t, err)
+
+		return
+	}
+
+	exp, err := ioutil.ReadFile(parsedFile)
+	require.NoError(t, err)
+
+	require.Equal(t, string(exp), classes[0].String())
 }
