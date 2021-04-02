@@ -270,7 +270,6 @@ func (p *Parser) ClassSearch() {
 
 	for !token.EOF {
 		token = p.Token()
-		token = p.SkipComment(token)
 
 		if string(token.Bytes) == "class" {
 			token = p.ClassDefinition(token)
