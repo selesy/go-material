@@ -93,10 +93,11 @@ type Argument struct {
 }
 
 type Class struct {
-	Name    string
-	Extends string
-	Fields  []Field
-	Methods []Method
+	Name       string
+	Extends    string
+	Implements []string
+	Fields     []Field
+	Methods    []Method
 }
 
 func (c *Class) String() string {
@@ -106,6 +107,10 @@ func (c *Class) String() string {
 	c.writeValue(sb, "", "Extends", c.Extends)
 
 	c.writeValue(sb, "", "Fields", "")
+
+	for _, implements := range c.Implements {
+		c.writeValue(sb, "", "Implements", implements)
+	}
 
 	for _, field := range c.Fields {
 		c.writeValue(sb, "\t", "Name", field.Name)
@@ -235,9 +240,11 @@ func (p *Parser) ClassDefinition(token *Token) *Token {
 	name := p.Token()
 	next := p.Token()
 
-	var extends *Token = nil
+	// var extends *Token = nil
+	var extends string
 	if string(next.Bytes) == "extends" {
-		extends = p.Token()
+		next = p.Token()
+		extends = string(next.Bytes)
 		next = p.Token()
 	}
 
@@ -245,12 +252,24 @@ func (p *Parser) ClassDefinition(token *Token) *Token {
 		next = p.SkipGeneric(next)
 	}
 
+	implements := []string{}
+	if string(next.Bytes) == "implements" {
+		next = p.Token()
+		for string(next.Bytes) != "{" {
+			if string(next.Bytes) != "," {
+				implements = append(implements, string(next.Bytes))
+			}
+			next = p.Token()
+		}
+	}
+
 	if string(next.Bytes) == "{" {
 		class := &Class{
-			Name:    string(name.Bytes),
-			Extends: string(extends.Bytes),
-			Fields:  []Field{},
-			Methods: []Method{},
+			Name:       string(name.Bytes),
+			Extends:    extends,
+			Implements: implements,
+			Fields:     []Field{},
+			Methods:    []Method{},
 		}
 		p.ClassBlock(class)
 		p.Classes = append(p.Classes, class)

@@ -1,0 +1,96 @@
+
+Name: MDCChip
+Extends: MDCComponent
+Fields: 
+	Name: rootHTML
+	Name: handleActionInteraction!
+	Name: handleActionNavigation!
+	Name: actions!
+Methods: 
+	Name: attachTo
+		Modifiers: 
+			Modifier: static
+		Arguments: 
+			Argument: 
+				Name: root
+				Type: Element
+		Return type: MDCChip
+	Name: initialize
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: actionFactory
+				Type: MDCChipActionFactory
+		Return type: 
+	Name: initialSyncWithDOM
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: destroy
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: getDefaultFoundation
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: getActions
+		Modifiers: 
+		Arguments: 
+		Return type: ActionType[]
+	Name: getElementID
+		Modifiers: 
+		Arguments: 
+		Return type: string
+	Name: isDisabled
+		Modifiers: 
+		Arguments: 
+		Return type: boolean
+	Name: setDisabled
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: isDisabled
+				Type: boolean
+		Return type: 
+	Name: isActionFocusable
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: action
+				Type: ActionType
+		Return type: boolean
+	Name: isActionSelectable
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: action
+				Type: ActionType
+		Return type: boolean
+	Name: isActionSelected
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: action
+				Type: ActionType
+		Return type: boolean
+	Name: setActionFocus
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: action
+				Type: ActionType
+			Argument: 
+				Name: focus
+				Type: FocusBehavior
+		Return type: 
+	Name: setActionSelected
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: action
+				Type: ActionType
+			Argument: 
+				Name: isSelected
+				Type: boolean
+		Return type: 

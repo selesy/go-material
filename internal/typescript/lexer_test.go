@@ -14,7 +14,7 @@ func TestLexer(t *testing.T) {
 	t.Parallel()
 
 	const (
-		inputFile = "testdata/chip.ts"
+		inputFile = "testdata/chip_master.ts"
 		lexedFile = "testdata/chip_lexed.golden"
 	)
 

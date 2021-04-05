@@ -70,7 +70,7 @@ func TestToken(t *testing.T) {
 	t.Parallel()
 
 	const (
-		inputFile     = "testdata/chip.ts"
+		inputFile     = "testdata/chip_master.ts"
 		tokenizedFile = "testdata/chip_tokenized.golden"
 	)
 

@@ -1,0 +1,122 @@
+
+Name: MDCChip
+Extends: MDCComponent
+Fields: 
+Implements: MDCRippleCapableSurface
+	Name: leadingIcon_!
+	Name: checkmark_!
+	Name: primaryAction_!
+	Name: trailingAction_!
+	Name: ripple_!
+	Name: handleTrailingActionInteraction_!
+	Name: handleTrailingActionNavigation_!
+	Name: handleTransitionEnd_!
+	Name: handleClick_!
+	Name: handleKeydown_!
+	Name: handleFocusIn_!
+	Name: handleFocusOut_!
+Methods: 
+	Name: selected
+		Modifiers: 
+			Modifier: get
+		Arguments: 
+		Return type: boolean
+	Name: selected
+		Modifiers: 
+			Modifier: set
+		Arguments: 
+			Argument: 
+				Name: selected
+				Type: boolean
+		Return type: 
+	Name: shouldRemoveOnTrailingIconClick
+		Modifiers: 
+			Modifier: get
+		Arguments: 
+		Return type: boolean
+	Name: shouldRemoveOnTrailingIconClick
+		Modifiers: 
+			Modifier: set
+		Arguments: 
+			Argument: 
+				Name: shouldRemove
+				Type: boolean
+		Return type: 
+	Name: setShouldFocusPrimaryActionOnClick
+		Modifiers: 
+			Modifier: set
+		Arguments: 
+			Argument: 
+				Name: shouldFocus
+				Type: boolean
+		Return type: 
+	Name: ripple
+		Modifiers: 
+			Modifier: get
+		Arguments: 
+		Return type: MDCRipple
+	Name: id
+		Modifiers: 
+			Modifier: get
+		Arguments: 
+		Return type: string
+	Name: attachTo
+		Modifiers: 
+			Modifier: static
+		Arguments: 
+			Argument: 
+				Name: root
+				Type: Element
+		Return type: 
+	Name: initialize
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: rippleFactory
+				Type: MDCRippleFactory
+			Argument: 
+				Name: trailingActionFactory
+				Type: MDCChipTrailingActionFactory
+		Return type: 
+	Name: initialSyncWithDOM
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: destroy
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: beginExit
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: getDefaultFoundation
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: setSelectedFromChipSet
+		Modifiers: 
+		Arguments: 
+			Argument: 
+				Name: selected
+				Type: boolean
+			Argument: 
+				Name: shouldNotifyClients
+				Type: boolean
+		Return type: 
+	Name: focusPrimaryAction
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: focusTrailingAction
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: removeFocus
+		Modifiers: 
+		Arguments: 
+		Return type: 
+	Name: remove
+		Modifiers: 
+		Arguments: 
+		Return type: 
